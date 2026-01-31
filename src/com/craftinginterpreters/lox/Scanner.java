@@ -72,11 +72,19 @@ class Scanner {
             default:
                 if (isDigit(c)) {
                     number();
+                } else if (isAlpha(c)) {
+                    identifier();
                 } else {
                     Lox.error(line, "Unexpected character");
                 }
                 break;
         }
+    }
+
+    private void identifier() {
+        while (isAlphaNumeric(peek())) advance();
+
+        addToken(IDENTIFIER);
     }
 
     private void number() {
@@ -130,6 +138,19 @@ class Scanner {
     private char peekNext() {
         if (current + 1 >= source.length()) return '\0';
         return source.charAt(current + 1);
+    }
+
+    private boolean isAlpha(char c) {
+        // We are comparing Unicode values of characters
+        // We are identifying all valid first characters of identifiers
+        return (c >= 'a' && c <= 'z') || // all lower case letters
+                (c >= 'A' && c <= 'Z') || // all upper case laters
+                c == '_'; // and the _ underscore
+    }
+
+    private boolean isAlphaNumeric(char c) {
+        // is the character either a letter/underscore or a digit
+        return isAlpha(c) || isDigit(c);
     }
 
     // a char type under the hood is a 16-bit unsigned integer as Unicode
