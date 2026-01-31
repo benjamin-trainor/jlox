@@ -85,8 +85,8 @@ class Scanner {
 
         // Look for a fractional part.
         if (peek() == '.' && isDigit(peekNext())) {
-            // Consume the "."
 
+            // Consume the "."
             do advance();
             while (isDigit(peek()));
         }
@@ -124,6 +124,11 @@ class Scanner {
         // '\0' means end of file ASCII character
         if (isAtEnd()) return '\0';
         return source.charAt(current);
+    }
+
+    private char peekNext() {
+        if (current + 1 >= source.length()) return '\0';
+        return source.charAt(current + 1);
     }
 
     // a char type under the hood is a 16-bit unsigned integer as Unicode
