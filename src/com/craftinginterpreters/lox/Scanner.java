@@ -80,14 +80,15 @@ class Scanner {
     }
 
     private void number() {
+        // Consume integer number literal
         while (isDigit(peek())) advance();
 
         // Look for a fractional part.
         if (peek() == '.' && isDigit(peekNext())) {
             // Consume the "."
-            advance();
 
-            while (isDigit(peek())) advance();
+            do advance();
+            while (isDigit(peek()));
         }
 
         addToken(NUMBER, Double.parseDouble(source.substring(start, current)));
